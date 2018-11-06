@@ -5,7 +5,7 @@ export default styles = StyleSheet.create({
     flex: 1
   },
   headerStyle: {
-    backgroundColor: '#1976D2'
+    backgroundColor: '#4CAF50'
   },
   rows: {
     flex: 1,
@@ -13,11 +13,17 @@ export default styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'stretch'
   },
+  rowsCentered: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center'
+  },
   buttonContainerView: {
     height: '80%'
   },
   button: {
     height: '100%',
-    backgroundColor: '#2196F3'
+    backgroundColor: '#607D8B'
   }
 });
