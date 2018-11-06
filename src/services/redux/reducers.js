@@ -49,7 +49,7 @@ const newsReducers = (currentState = initialState, action) => {
       };
     case FETCH_NEWS_DONE:
       const {articles} = action.response
-      console.log(action.response);
+      // console.log(action.response);
       return {
         ...currentState,
         loading: false,

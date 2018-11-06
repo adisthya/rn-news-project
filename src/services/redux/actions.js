@@ -1,7 +1,7 @@
 import { FETCH_SOURCES, FETCH_SOURCES_DONE, FETCH_SOURCES_FAILED, FETCH_NEWS, FETCH_NEWS_DONE, FETCH_NEWS_FAILED, RECHECK } from "../../shared/constants/actions";
 
-export const fetchingSources = () => {
-  return { type: FETCH_SOURCES };
+export const fetchingSources = (language, country) => {
+  return { type: FETCH_SOURCES, language: language, country: country };
 };
 
 export const fetchSourcesDone = () => {

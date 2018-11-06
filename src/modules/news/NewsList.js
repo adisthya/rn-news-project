@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import { connect } from 'react-redux';
-import { Button, List } from "react-native-elements";
+import { Button, List, ListItem } from "react-native-elements";
 import styles from "../../assets/styles";
 
 import { fetchingNews, fetchNewsDone, fetchNewsFail } from "../../services/redux/actions";
@@ -22,24 +22,27 @@ class NewsList extends Component {
 
   renderItem = ({item, index}) => {
     return (
-      <View style={styles.rows}>
-        <Button title={item.title} borderRadius={3} containerViewStyle={styles.buttonContainerView} buttonStyle={styles.button} large raised></Button>
-      </View>
+      <ListItem
+        roundAvatar
+        avatar={{uri: item.urlToImage}}
+        title={item.title}
+        subtitle={item.description}
+        onPress={() => this.props.navigation.navigate('NewsDetail', {url: item.url})}
+        avatarStyle={styles.avatarStyle}
+        titleNumberOfLines=2
+        subtitleNumberOfLines=3
+      />
     )
   }
 
   rendernews = () => {
     const {news} = this.props;
     return (
-      <View style={styles.body}>
-        <List>
-          <FlatList
-            data={news}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => `${index}-${item.id}` }
-          />
-        </List>
-      </View>
+      <FlatList
+        data={news}
+        renderItem={this.renderItem}
+        keyExtractor={(item, index) => `${index}-${item.id}` }
+      />
     )
   }
 
@@ -69,7 +72,9 @@ class NewsList extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  language: state.newsReducers.language,
   source: state.newsReducers.source,
+  pageSize: state.newsReducers.pageSize,
   news: state.newsReducers.news,
   loading: state.newsReducers.loading,
   done: state.newsReducers.done

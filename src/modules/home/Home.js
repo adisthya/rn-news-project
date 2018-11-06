@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, FlatList } from "react-native";
 import { connect } from 'react-redux';
-import { Button, List } from "react-native-elements";
+import { Button, List, ListItem } from "react-native-elements";
 import styles from "../../assets/styles";
 
 import { fetchingSources, fetchSourcesDone, fetchSourcesFail } from "../../services/redux/actions";
@@ -20,26 +20,26 @@ class Home extends Component {
     super(props);
   }
 
-
-
   renderItem = ({item, index}) => {
     return (
-      <View style={styles.rows}>
-        <Button title={item.name} onPress={() => { this.props.navigation.navigate('NewsList', item)}} borderRadius={3} containerViewStyle={styles.buttonContainerView} buttonStyle={styles.button} large raised />
-      </View>
+      <ListItem
+        title={item.name}
+        subtitle={item.description}
+        onPress={() => this.props.navigation.navigate('NewsList', item)}
+        titleNumberOfLines=2
+        subtitleNumberOfLines=3
+      />
     )
   }
 
   renderSources = () => {
     const {sources} = this.props;
     return (
-      <List style={styles.body}>
-        <FlatList
-          data={sources}
-          renderItem={this.renderItem}
-          keyExtractor={(item, index) => `${index}-${item.id}` }
-        />
-      </List>
+      <FlatList
+        data={sources}
+        renderItem={this.renderItem}
+        keyExtractor={(item, index) => `${index}-${item.id}` }
+      />
     )
   }
 
@@ -54,8 +54,8 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    const { fetchingSources } = this.props;
-    fetchingSources();
+    const { fetchingSources, language, country } = this.props;
+    fetchingSources(language, country);
   }
 
   render() {
@@ -68,6 +68,7 @@ class Home extends Component {
 }
 
 const mapStateToProps = (state) => ({
+  language: state.sourceReducers.language,
   country: state.sourceReducers.country,
   sources: state.sourceReducers.sources,
   loading: state.sourceReducers.loading,

@@ -7,6 +7,7 @@ const fetchSources = async (payload) => {
     if (payload.hasOwnProperty('language')) url = `${url}&language=${payload.language}`;
     if (payload.hasOwnProperty('country')) url = `${url}&country=${payload.country}`;
 
+    console.log('URL: ', url);
     let response = await fetch(url);
     return response.json();
   } catch (exception) {

@@ -2,7 +2,9 @@ import { StyleSheet } from "react-native";
 
 export default styles = StyleSheet.create({
   body: {
-    flex: 1
+    flex: 1,
+    marginTop: 0,
+    padding: 0
   },
   headerStyle: {
     backgroundColor: '#4CAF50'
@@ -25,5 +27,9 @@ export default styles = StyleSheet.create({
   button: {
     height: '100%',
     backgroundColor: '#607D8B'
+  },
+  avatarStyle: {
+    height: 32,
+    width: 32
   }
 });
