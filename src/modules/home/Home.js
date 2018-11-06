@@ -1,11 +1,11 @@
 
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, FlatList } from "react-native";
 import { connect } from 'react-redux';
 import { Button, List } from "react-native-elements";
 import styles from "../../assets/styles";
 
-import { fetchingSources, fetchSourcesDone, fetchSourcesFail, recheck } from "../../services/redux/actions";
+import { fetchingSources, fetchSourcesDone, fetchSourcesFail } from "../../services/redux/actions";
 import Loading from '../../shared/components/Loading';
 import ErrorView from '../../shared/components/ErrorView';
 
@@ -20,68 +20,62 @@ class Home extends Component {
     super(props);
   }
 
-  renderItem(item, index) {
+
+
+  renderItem = ({item, index}) => {
     return (
       <View style={styles.rows}>
-        <Button title={item.name} borderRadius={3} containerViewStyle={styles.buttonContainerView} buttonStyle={styles.button} large raised />
+        <Button title={item.name} onPress={() => { this.props.navigation.navigate('NewsList', item)}} borderRadius={3} containerViewStyle={styles.buttonContainerView} buttonStyle={styles.button} large raised />
       </View>
     )
   }
 
-  renderSources() {
+  renderSources = () => {
     const {sources} = this.props;
     return (
-      <View style={styles.body}>
-        <List>
-          <FlatList
-            data={sources}
-            renderItem={this.renderItem}
-            keyExtractor={(item, index) => `${index}-${item.id}`}
-          />
-        </List>
-      </View>
+      <List style={styles.body}>
+        <FlatList
+          data={sources}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => `${index}-${item.id}` }
+        />
+      </List>
     )
   }
 
-  renderLoading() {
-    const {fetchingSources, recheck, loading} = this.props;
-    fetchingSources();
-    setTimeout(recheck, 3000);
+  renderLoading = () => {
+    const {loading} = this.props;
 
     return ( <Loading animating={loading} /> );
   }
 
-  renderError() {
+  renderError = () => {
     return ( <ErrorView /> );
   }
 
-  render() {
-    const { sources, loading, done} = this.props;
+  componentDidMount() {
+    const { fetchingSources } = this.props;
+    fetchingSources();
+  }
 
-    console.log('sources', sources);
-    // if (done === true && (Array.isArray(sources) && sources.length > 0)) {
-    //   return this.renderSources();
-    // } else if (loading === false && failed === true) {
-    //   return this.renderError();
-    // } else {
-    //   return this.renderLoading();
-    // }
+  render() {
+    const {loading, done} = this.props;
 
     return (
-      ( (!sources || !loading) ? this.renderLoading() : ( done ? this.renderSources() : this.renderError() ) )
+      ( (loading ? this.renderLoading() : ( done ? this.renderSources() : this.renderError() ) ) )
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  source: state.source,
-  sources: state.sources,
-  loading: state.loading,
-  done: state.done
+  country: state.sourceReducers.country,
+  sources: state.sourceReducers.sources,
+  loading: state.sourceReducers.loading,
+  done: state.sourceReducers.done
 });
 
 const mapDispatchToProps = {
-  fetchingSources, fetchSourcesDone, fetchSourcesFail, recheck
+  fetchingSources, fetchSourcesDone, fetchSourcesFail
 };
 
 // console.log(mapStateToProps);

@@ -1,30 +1,27 @@
 import { combineReducers } from "redux";
-import { FETCH_SOURCES, FETCH_SOURCES_DONE, FETCH_SOURCES_FAILED, FETCH_NEWS, FETCH_NEWS_DONE, FETCH_NEWS_FAILED, RECHECK } from "../../shared/constants/actions";
+import { FETCH_SOURCES, FETCH_SOURCES_DONE, FETCH_SOURCES_FAILED, FETCH_NEWS, FETCH_NEWS_DONE, FETCH_NEWS_FAILED } from "../../shared/constants/actions";
 
 const initialState = {
   sources: [],
   news: [],
-  loading: false,
+  loading: true,
   done: false,
   country: 'us',
   source: '',
   language: 'en',
-  pageSize: 50
+  pageSize: 20
 };
 
 const sourceReducers = (currentState = initialState, action) => {
   // console.log('action: ', action);
   switch (action.type) {
     case FETCH_SOURCES:
-      console.log('fetching source...');
       return {
         ...currentState,
         loading: true
       };
     case FETCH_SOURCES_DONE:
-      console.log('fetching source done..');
       const { sources } = action.response;
-      console.log('sources:', sources.length);
       return {
         ...currentState,
         loading: false,
@@ -38,9 +35,6 @@ const sourceReducers = (currentState = initialState, action) => {
         done: false,
         sources: []
       }
-    case RECHECK:
-      console.log('RECHECK currentState: ', currentState);
-      return currentState;
     default:
       return currentState;
   }
@@ -54,11 +48,13 @@ const newsReducers = (currentState = initialState, action) => {
         loading: true
       };
     case FETCH_NEWS_DONE:
+      const {articles} = action.response
+      console.log(action.response);
       return {
         ...currentState,
         loading: false,
         done: true,
-        news: action.response
+        news: articles
       };
     case FETCH_NEWS_FAILED:
       return {
@@ -67,9 +63,6 @@ const newsReducers = (currentState = initialState, action) => {
         done: false,
         news: []
       }
-    case RECHECK:
-      console.log('RECHECK currentState: ', currentState);
-      return currentState;
     default:
       return currentState;
   }

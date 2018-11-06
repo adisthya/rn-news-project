@@ -20,9 +20,11 @@ const fetchNews = async (payload) => {
     let url = `${api.url}${api.endpoints.everything}?apiKey=${api.key}`;
 
     if (payload.hasOwnProperty('term')) url = `${url}&q=${payload.term}`;
-    if (payload.hasOwnProperty('source')) url = `${url}&sources=${payload.source}`;
+    if (payload.hasOwnProperty('sources')) url = `${url}&sources=${payload.sources}`;
     if (payload.hasOwnProperty('pageSize')) url = `${url}&pageSize=${payload.pageSize}`;
 
+    console.log(payload)
+    console.log(url);
     let response = await fetch(url);
     return response.json();
   } catch (exception) {

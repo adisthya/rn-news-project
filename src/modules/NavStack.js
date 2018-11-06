@@ -1,10 +1,12 @@
 import { createStackNavigator } from "react-navigation";
 import Home from "./home/Home";
+import NewsList from './news/NewsList';
+// import NewsDetail from './news/NewsDetail';
 
 const Navigation = createStackNavigator(
   {
     Home: {screen: Home},
-    // News: {screen: News},
+    NewsList: {screen: NewsList},
     // NewsDetail: {screen: NewsDetail}
   },
   {

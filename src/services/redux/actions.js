@@ -12,8 +12,8 @@ export const fetchSourcesFail = () => {
   return { type: FETCH_SOURCES_FAILED };
 };
 
-export const fetchingNews = () => {
-  return { type: FETCH_NEWS };
+export const fetchingNews = (id, pageSize) => {
+  return { type: FETCH_NEWS, sources: id, pageSize: pageSize };
 };
 
 export const fetchNewsDone = () => {
@@ -23,7 +23,3 @@ export const fetchNewsDone = () => {
 export const fetchNewsFail = () => {
   return { type: FETCH_NEWS_FAILED };
 };
-
-export const recheck = () => {
-  return { type: RECHECK };
-}
